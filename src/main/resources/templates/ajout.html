@@ -1,0 +1,108 @@
+<!doctype html>
+<html xmlns:th="http://thymeleaf.org" lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sketchy/bootstrap.min.css"
+              integrity="sha384-RxqHG2ilm4r6aFRpGmBbGTjsqwfqHOKy1ArsMhHusnRO47jcGqpIQqlQK/kmGy9R"
+              crossorigin="anonymous"
+        >
+        <title>Ajouter un film</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarColor03">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/}">Home
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/ajout/film}">Ajout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <h1 class="text-center">Ajouter un film</h1>
+
+            <div>
+                <form th:action="@{/ajout/film}" th:object="${film}" method="post">
+
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                        <p>Une erreur est survenue lors de l'ajout du film</p>
+                    </div>
+
+                    <label for="nomFilm">Nom  :</label>
+                    <input type="text" th:field="*{titre}" id="nomFilm" /><br>
+                    <span class="text-danger col-6" th:if="${#fields.hasErrors('titre')}">
+                        <ul>
+                            <li th:each="erreur: ${#fields.errors('titre')}" th:text="${erreur}"></li>
+                        </ul>
+                    </span>
+
+                    <label for="dureeFilm">Durée : </label>
+                    <input type="number" th:field="*{duree}" id="dureeFilm" /><br>
+                    <span class="text-danger col-6" th:if="${#fields.hasErrors('duree')}">
+                        <ul>
+                            <li th:each="erreur: ${#fields.errors('duree')}" th:text="${erreur}"></li>
+                        </ul>
+                    </span>
+
+                    <label for="synopsisFilm">Synopsis  :</label>
+                    <input type="text" th:field="*{synopsis}" id="synopsisFilm" /><br>
+                    <span class="text-danger col-6" th:if="${#fields.hasErrors('synopsis')}">
+                        <ul>
+                            <li th:each="erreur: ${#fields.errors('synopsis')}" th:text="${erreur}"></li>
+                        </ul>
+                    </span>
+
+                    <label for="anneeFilm">Année : </label>
+                    <input type="number" th:field="*{annee}" id="anneeFilm" /><br><br>
+                    <span class="text-danger col-6" th:if="${#fields.hasErrors('annee')}">
+                        <ul>
+                            <li th:each="erreur: ${#fields.errors('annee')}" th:text="${erreur}"></li>
+                        </ul>
+                    </span>
+
+                    <label for="categorieFilm">Le genre</label>
+                    <select class="col-3"  th:field="*{categorie}" name="categorieFilm" id="categorieFilm" required>
+                        <option th:each="categorie: ${@categories}"
+                                th:value="${categorie.id}" th:text="${categorie.nom}">
+                        </option>
+                    </select>
+                    <span class="text-danger col-6" th:if="${#fields.hasErrors('categorie')}">
+                        <ul>
+                            <li th:each="erreur: ${#fields.errors('categorie')}" th:text="${erreur}"></li>
+                        </ul>
+                    </span><br><br>
+
+                    <label for="realisateursFilm">Les réalisateurs</label>
+                    <select class="col-3"  th:field="*{realisateurs}" name="realisateursFilm" id="realisateursFilm" required multiple>
+                        <option th:each="realisateur: ${@realisateurs}"
+                                th:value="${realisateur.id}" th:text="${realisateur.nom} + ' ' + ${realisateur.prenom}" >
+                        </option>
+                    </select>
+                    <span class="text-danger col-6" th:if="${#fields.hasErrors('realisateurs')}">
+                        <ul>
+                            <li th:each="erreur: ${#fields.errors('realisateurs')}" th:text="${erreur}"></li>
+                        </ul>
+                    </span><br><br>
+
+                    <input type="submit" name="btnAjoutFilm" value="Ajouter">
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

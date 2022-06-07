@@ -1,0 +1,80 @@
+<!doctype html>
+<html xmlns:th="http://thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Page Accueil</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sketchy/bootstrap.min.css"
+          integrity="sha384-RxqHG2ilm4r6aFRpGmBbGTjsqwfqHOKy1ArsMhHusnRO47jcGqpIQqlQK/kmGy9R"
+          crossorigin="anonymous"
+    >
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/}">Home
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/ajout/film}">Ajout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container">
+        <h1 class="text-center">Les films</h1>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Année</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Réalisateur</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="film : ${films}">
+                    <tr th:if="${filmStat.index %2 == 0}" class="table-active">
+                        <th scope="row" th:text="${film.titre}"></th>
+                        <td th:text="${film.annee}"></td>
+                        <td th:text="${film.categorie.nom}"></td>
+                        <td>
+                            <th:block th:each="real : ${film.realisateurs}">
+                                <span th:text="${real.nom} + ' ' + ${real.prenom} + ' '"></span>
+                            </th:block>
+                        </td>
+                        <td><a th:href="@{/detail/{id}(id=${film.id})}">Voir Détail</a></td>
+                    </tr>
+                    <tr th:unless="${filmStat.index %2 == 0}" class="table-dark">
+                        <th scope="row" th:text="${film.titre}"></th>
+                        <td th:text="${film.annee}"></td>
+                        <td th:text="${film.categorie.nom}"></td>
+                        <td>
+                            <th:block th:each="real : ${film.realisateurs}">
+                                <span th:text="${real.nom} + ' ' + ${real.prenom}+ ' '"></span>
+                            </th:block>
+                        </td>
+                        <td><a th:href="@{/detail/{id}(id=${film.id})}" style="color:white;">Voir Détail</a></td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
